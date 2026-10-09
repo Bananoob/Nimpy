@@ -21,12 +21,6 @@ Depuis le dossier du projet, exécutez :
 python main.py
 ```
 
-ou, selon votre installation :
-
-```bash
-py main.py
-```
-
 ## Structure du projet
 
 - `main.py` : point d'entrée du jeu
