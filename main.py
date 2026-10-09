@@ -13,6 +13,7 @@ from nim_affichage import (
     demander_coup,
     demander_mode_jeu,
     demander_rejouer,
+    effacer_console,
 )
 
 
@@ -32,14 +33,18 @@ def jeu_nim():
 
         tas = initialiser_tas(configuration)
         numero_joueur = 1
+        effacer_console()
+        afficher_regles()
+        afficher_tas(tas)
 
         while not partie_terminee(tas):
-            afficher_tas(tas)
             numero_tas, nombre_objets = demander_coup(tas, numero_joueur)
             appliquer_coup(tas, numero_tas, nombre_objets)
+            effacer_console()
+            afficher_regles()
+            afficher_tas(tas)
 
             if partie_terminee(tas):
-                afficher_tas(tas)
                 annoncer_gagnant(numero_joueur)
             else:
                 numero_joueur = 3 - numero_joueur

@@ -36,3 +36,20 @@ def appliquer_coup(tas, numero_tas, nombre_objets):
 def partie_terminee(tas):
     # Indique si tous les tas sont vides.
     return all(nombre_objets == 0 for nombre_objets in tas)
+
+
+def conseiller_coup(tas):
+    # Propose un coup qui laisse une position perdante à l'adversaire si possible.
+    somme_nim = 0
+    for nombre_objets in tas:
+        somme_nim ^= nombre_objets
+
+    if somme_nim == 0:
+        return None
+
+    for numero_tas, nombre_objets in enumerate(tas):
+        cible = nombre_objets ^ somme_nim
+        if cible < nombre_objets:
+            return numero_tas, nombre_objets - cible
+
+    return None

@@ -1,6 +1,17 @@
 # Fichier contenant les fonctions liées à l'affichage
 
-from nim_logique import coup_valide
+import os
+
+from nim_logique import conseiller_coup, coup_valide
+
+
+def effacer_console():
+    # Efface le terminal avec la commande adaptée au système d'exploitation.
+    commande = "cls" if os.name == "nt" else "clear"
+    resultat = os.system(commande)
+    if resultat != 0:
+        raise OSError("Impossible d'effacer la console.")
+
 
 def afficher_regles():
     # Affiche les règles du jeu au lancement du programme.
@@ -10,6 +21,7 @@ def afficher_regles():
     print("A chaque tour, un joueur retire au moins 1 objet")
     print("dans UN SEUL tas de son choix.")
     print("Le joueur qui retire le(s) dernier(s) objet(s) GAGNE.")
+    print("Saisissez 'c' au choix du tas pour obtenir un conseil.")
     print("=" * 50)
     print()
 
@@ -19,7 +31,7 @@ def afficher_tas(tas):
     print("\nEtat des tas :")
     for indice, nombre_objets in enumerate(tas):
         symboles = "|" * nombre_objets
-        print(f"  Tas {indice} : {symboles}  ({nombre_objets} objet(s))")
+        print(f"  Tas {indice} : {symboles}")
     print()
 
 
@@ -38,9 +50,31 @@ def demander_coup(tas, numero_joueur):
     # Demande un coup au joueur et recommence tant que le coup est invalide.
     print(f"--- Tour du joueur {numero_joueur} ---")
     while True:
-        numero_tas = demander_entier(
-            f"Choisissez un tas (0 a {len(tas) - 1}) : "
-        )
+        saisie_tas = input(
+            f"Choisissez un tas (0 a {len(tas) - 1}, ou 'c' pour un conseil) : "
+        ).strip().lower()
+
+        if saisie_tas in ("c", "conseil"):
+            coup_conseille = conseiller_coup(tas)
+            if coup_conseille is None:
+                print(
+                    "Aucun coup ne garantit la victoire si l'adversaire "
+                    "joue parfaitement."
+                )
+            else:
+                numero_conseille, objets_conseilles = coup_conseille
+                print(
+                    f"Conseil : retirer {objets_conseilles} objet(s) "
+                    f"du tas {numero_conseille}."
+                )
+            continue
+
+        try:
+            numero_tas = int(saisie_tas)
+        except ValueError:
+            print("Saisissez un numéro de tas valide ou 'c' pour un conseil.\n")
+            continue
+
         nombre_objets = demander_entier(
             "Combien d'objets voulez-vous retirer ? "
         )
