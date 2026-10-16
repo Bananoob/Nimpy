@@ -21,6 +21,12 @@ Depuis le dossier du projet, exécutez :
 python main.py
 ```
 
+ou, selon votre installation :
+
+```bash
+py main.py
+```
+
 ## Structure du projet
 
 - `main.py` : point d'entrée du jeu
@@ -29,4 +35,4 @@ python main.py
 
 ## Licence
 
-Projet crée par Mathis Jardon Moyne, Marine Leguede, Jauris Victoir
+Projet personnel / sans licence spécifique.
